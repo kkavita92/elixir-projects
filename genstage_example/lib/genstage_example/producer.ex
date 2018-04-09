@@ -12,9 +12,11 @@ defmodule GenstageExample.Producer do
 
   def init(counter), do: {:producer, counter}
 
-  # Return the set of numbers demanded by our customers and increment our counter
-  def handle_demand(demand, state) do
-    events = Enum.to_list(state..(state + demand - 1))
-    {:noreply, events, state + demand}
+  # Return the set of numbers demanded by our customers and increment our counter.
+  # If the counter is 3 and demand is for 2 items, we will
+  # emit items 3 and 4 and set the state to 5.
+  def handle_demand(demand, counter) do
+    events = Enum.to_list(counter..(counter + demand - 1))
+    {:noreply, events, counter + demand}
   end
 end
